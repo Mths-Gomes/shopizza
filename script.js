@@ -46,7 +46,24 @@ function closeModal() {
     setTimeout(()=>gotcha('.pizzaWindowArea').style.display = 'none', 500);
 }
     
-    /*pizzaItem.querySelector('.apizzaInfo--cancelButton').addEventListener('click',(e)=> {
-        e.preventDefault();
-        gotcha('.pizzaWindowArea').style.display = 'flex';
-    });*/
+gotchas('.pizzaInfo--cancelMobileButton, .pizzaInfo--cancelButton').forEach((item)=>item.addEventListener('click', closeModal));
+
+gotcha('.pizzaInfo--qtmenos').addEventListener('click', ()=> {
+    if(qtdCesta > 1) {
+        qtdCesta--;
+        gotcha('.pizzaInfo--qt').innerHTML = qtdCesta;
+    }
+});
+
+gotcha('.pizzaInfo--qtmais').addEventListener('click', ()=> {
+    qtdCesta++;
+    gotcha('.pizzaInfo--qt').innerHTML = qtdCesta;
+    //gotcha('.pizzaInfo--actualPrice').innerHTML = `R$$ ${pizzaJson[key].price.toFixed(2).replace('.',',')}`;
+})
+
+gotchas('.pizzaInfo--size').forEach((size, sizeIndex)=>{
+    size.addEventListener('click', (e)=>{
+        gotcha('.pizzaInfo--size.selected').classList.remove('selected');
+        size.classList.add('selected');
+    });
+});
