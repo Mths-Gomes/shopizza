@@ -1,8 +1,9 @@
 
+let qtdCesta = 1;
 const gotcha = (e)=>document.querySelector(e);
 const gotchas = (e)=>document.querySelectorAll(e);
 
-
+//Listagem das Pizzas
 pizzaJson.map((item, index)=>{
     let pizzaItem = gotcha('.models .pizza-item').cloneNode(true);
 
@@ -15,6 +16,7 @@ pizzaJson.map((item, index)=>{
     pizzaItem.querySelector('a').addEventListener('click', (e)=>{
         e.preventDefault();
         let key = e.target.closest('.pizza-item').getAttribute('data-key');
+        qtdCesta = 1;
 
         gotcha('.pizzaBig img').setAttribute('src',pizzaJson[key].img);
         gotcha('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
@@ -28,19 +30,23 @@ pizzaJson.map((item, index)=>{
         });
         gotcha('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2).replace('.',',')}`;
 
+        gotcha('.pizzaInfo--qt').innerHTML = qtdCesta;
+
         gotcha('.pizzaWindowArea').style.opacity = 0;
         gotcha('.pizzaWindowArea').style.display = 'flex';
         setTimeout(()=>gotcha('.pizzaWindowArea').style.opacity = 1, 200);
     });
+
+    gotcha('.pizza-area').append(pizzaItem);
+});
+
+//Eventos do Modal
+function closeModal() {
+    gotcha('.pizzaWindowArea').style.opacity = 0;
+    setTimeout(()=>gotcha('.pizzaWindowArea').style.display = 'none', 500);
+}
     
     /*pizzaItem.querySelector('.apizzaInfo--cancelButton').addEventListener('click',(e)=> {
         e.preventDefault();
         gotcha('.pizzaWindowArea').style.display = 'flex';
     });*/
-
-    gotcha('.pizza-area').append(pizzaItem);
-})
-
-function canCompra() {
-    document.querySelector('pizzaWindowArea').style.display = 'none';
-}
