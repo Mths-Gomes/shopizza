@@ -1,5 +1,7 @@
 
 let qtdCesta = 1;
+let typPizza = 0;
+let cart = [];
 const gotcha = (e)=>document.querySelector(e);
 const gotchas = (e)=>document.querySelectorAll(e);
 
@@ -17,6 +19,7 @@ pizzaJson.map((item, index)=>{
         e.preventDefault();
         let key = e.target.closest('.pizza-item').getAttribute('data-key');
         qtdCesta = 1;
+        typPizza = key;
 
         gotcha('.pizzaBig img').setAttribute('src',pizzaJson[key].img);
         gotcha('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
@@ -51,14 +54,17 @@ gotchas('.pizzaInfo--cancelMobileButton, .pizzaInfo--cancelButton').forEach((ite
 gotcha('.pizzaInfo--qtmenos').addEventListener('click', ()=> {
     if(qtdCesta > 1) {
         qtdCesta--;
+        let total = qtdCesta * pizzaJson[typPizza].price;
         gotcha('.pizzaInfo--qt').innerHTML = qtdCesta;
+        gotcha('.pizzaInfo--actualPrice').innerHTML = `R$ ${total.toFixed(2).replace('.',',')}`;
     }
 });
 
 gotcha('.pizzaInfo--qtmais').addEventListener('click', ()=> {
     qtdCesta++;
+    let total = qtdCesta * pizzaJson[typPizza].price; 
     gotcha('.pizzaInfo--qt').innerHTML = qtdCesta;
-    //gotcha('.pizzaInfo--actualPrice').innerHTML = `R$$ ${pizzaJson[key].price.toFixed(2).replace('.',',')}`;
+    gotcha('.pizzaInfo--actualPrice').innerHTML = `R$ ${total.toFixed(2).replace('.',',')}`;
 })
 
 gotchas('.pizzaInfo--size').forEach((size, sizeIndex)=>{
@@ -67,3 +73,16 @@ gotchas('.pizzaInfo--size').forEach((size, sizeIndex)=>{
         size.classList.add('selected');
     });
 });
+
+gotcha('.pizzaInfo--addButton').addEventListener('click', ()=> {
+    let sizPizza = parseInt(gotcha('.pizzaInfo--size.selected').getAttribute('data-key'));
+    
+    cart.push({
+        id:pizzaJson[typPizza].id,
+        pizza:pizzaJson[typPizza].name,
+        size:sizPizza,
+        qtd:qtdCesta
+    });
+
+    closeModal();
+}); 
