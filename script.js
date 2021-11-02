@@ -77,12 +77,23 @@ gotchas('.pizzaInfo--size').forEach((size, sizeIndex)=>{
 gotcha('.pizzaInfo--addButton').addEventListener('click', ()=> {
     let sizPizza = parseInt(gotcha('.pizzaInfo--size.selected').getAttribute('data-key'));
     
-    cart.push({
-        id:pizzaJson[typPizza].id,
-        pizza:pizzaJson[typPizza].name,
-        size:sizPizza,
-        qtd:qtdCesta
-    });
+    let identifier = pizzaJson[typPizza].id + '&' + sizPizza;
+
+    let checkIden = cart.findIndex((item)=>item.identifier == identifier);
+    
+    if(checkIden >-1) {
+        cart[checkIden].qtd += qtdCesta;
+    }
+    else {
+        cart.push({
+            identifier:identifier,
+            id:pizzaJson[typPizza].id,
+            pizza:pizzaJson[typPizza].name,
+            size:sizPizza,
+            qtd:qtdCesta
+        });
+    }
+
 
     closeModal();
-}); 
+});  
